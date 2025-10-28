@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Downloader</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- cartão única vez -->
+  <div class="card">
+    <h1>Video Downloader</h1>
+
+    <!-- input + ícone -->
+    <div class="input-group">
+      <div class="icon-container">
+        <img
+          id="platform-icon"
+          src="assets/link.svg"
+          alt="Link"
+          width="24"
+          height="24"
+        >
+      </div>
+      <input
+        type="text"
+        id="video-url"
+        placeholder="Cole o link do YouTube, Instagram ou TikTok"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- botão dentro do mesmo card -->
+    <button id="download-btn">
+      <span class="spinner"></span>
+      <svg class="icon-dl" viewBox="0 0 24 24"><path fill="currentColor"
+        d="M5,20H19V18H5V20M12,2L12,14.17L15.59,10.59L17,12L12,17L7,12L8.41,10.59L12,14.17L12,2Z"/>
+      </svg>
+      <span class="btn-text">Baixar</span>
+    </button>
+
+    <!-- área de mensagens -->
+    <p id="message"></p>
+    <p id="video-title" class="video-title"></p>
+    <hr>
+
+    <section class="history">
+      <h2>Últimos Downloads</h2>
+      <ul id="download-history"></ul>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
