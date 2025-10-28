@@ -128,28 +128,43 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     // função unificada de download
-    function downloadUrl() {
+    async function downloadUrl() {
       const url  = inputUrl.value.trim();
       const plat = detectPlatform(url);
       if (!url || !isValidUrl(url, plat)) return;
   
-      saveToHistory(url);
       btn.classList.add('loading');
       inputUrl.disabled = true;
       msg.style.color = '#333';
-      msg.textContent  = 'Preparando download…';
-  
-      setTimeout(() => {
-        window.open(
-          `/download?url=${encodeURIComponent(url)}`,
-          '_blank'
-        );
-        // opcional: remove loading após um curto período
+      msg.textContent = 'Verificando vídeo…';
+
+      try {
+        // Testa a URL primeiro
+        const testRes = await fetch(`/test?url=${encodeURIComponent(url)}`);
+        const testData = await testRes.json();
+
+        if (!testRes.ok) {
+          throw new Error(testData.error || 'URL inválida');
+        }
+
+        msg.textContent = 'Iniciando download…';
+        saveToHistory(url);
+        
+        // Inicia o download
+        window.open(`/download?url=${encodeURIComponent(url)}`, '_blank');
+        
         setTimeout(() => {
           btn.classList.remove('loading');
           inputUrl.disabled = false;
-        }, 500);
-      }, 100);
+          msg.textContent = '';
+        }, 1000);
+
+      } catch (error) {
+        btn.classList.remove('loading');
+        inputUrl.disabled = false;
+        msg.style.color = 'var(--red)';
+        msg.textContent = '❌ ' + error.message;
+      }
     }
   
       // limpa o título antigo
